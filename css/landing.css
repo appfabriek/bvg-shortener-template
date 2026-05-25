@@ -1,0 +1,306 @@
+/* ============================================================================
+   landing.css — public landing for the shortener template
+   Dark, focused, demo-forward. No login form clutter — admins-only service.
+============================================================================ */
+
+:root {
+  --bg: #0b1220;
+  --bg-elev: #111a2e;
+  --surface: rgba(255, 255, 255, 0.04);
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #e6edf7;
+  --muted: #8a99b3;
+  --accent: #22d3ee;
+  --accent-2: #818cf8;
+  --radius: 14px;
+  --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 1200px 600px at 50% -100px, rgba(34, 211, 238, 0.12), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 80% 30%, rgba(129, 140, 248, 0.10), transparent 60%),
+    var(--bg);
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--text); }
+
+/* ---------- Nav ---------- */
+
+.landing-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 0;
+}
+
+.landing-brand {
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+.landing-brand::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.landing-nav nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.landing-nav nav a {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.landing-nav nav a:hover { color: var(--text); }
+
+/* ---------- Hero ---------- */
+
+.hero {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 4rem;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (max-width: 880px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 3rem 1.5rem;
+    gap: 2.5rem;
+  }
+}
+
+.hero-inner h1 {
+  font-size: clamp(2.5rem, 5.5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+}
+
+.accent {
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lede {
+  font-size: 1.125rem;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 32rem;
+  margin-bottom: 2rem;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+/* {{login_button}} renders a .landing-login wrapper with its own button.
+   We override it to fit the dark theme. */
+.hero-cta .landing-login {
+  margin-top: 0 !important;
+  max-width: none !important;
+  width: auto;
+}
+
+.hero-cta .landing-login button[type="submit"] {
+  background: var(--accent) !important;
+  color: var(--bg) !important;
+  border: none !important;
+  border-radius: var(--radius) !important;
+  padding: 0.875rem 1.5rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  width: auto !important;
+  backdrop-filter: none !important;
+  box-shadow: 0 4px 20px rgba(34, 211, 238, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.hero-cta .landing-login button[type="submit"]:hover {
+  background: var(--accent) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(34, 211, 238, 0.45);
+}
+
+.hero-cta .landing-login button svg,
+.hero-cta .landing-login button img {
+  filter: none !important;
+}
+
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.875rem 1.25rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ghost-btn:hover {
+  background: var(--surface);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text);
+}
+
+.hero-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+/* ---------- Demo card ---------- */
+
+.hero-demo { display: flex; justify-content: center; }
+
+.demo-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 24rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+.demo-row {
+  display: grid;
+  grid-template-columns: 5rem 1.5rem 1fr;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.demo-row:last-child { border-bottom: none; }
+
+.demo-key { color: var(--accent); font-weight: 500; }
+.demo-arrow { color: var(--muted); text-align: center; }
+.demo-target { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.demo-row--new .demo-key,
+.demo-row--new .demo-target {
+  color: var(--accent-2);
+  opacity: 0.7;
+}
+
+.demo-row--new {
+  position: relative;
+}
+
+.demo-row--new::after {
+  content: "▍";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-2);
+  animation: blink 1.2s infinite;
+}
+
+@keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+/* ---------- Sections ---------- */
+
+.features, .why, .contact {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.features h2, .why h2, .contact h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.feature-grid article {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.feature-grid h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.feature-grid p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.feature-grid code {
+  font-family: var(--mono);
+  background: var(--bg-elev);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--accent);
+}
+
+.why p, .contact p {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 44rem;
+}
+
+/* ---------- Footer overrides ---------- */
+
+footer {
+  border-top: 1px solid var(--line);
+  margin-top: 2rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+}

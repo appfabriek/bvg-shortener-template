@@ -1,0 +1,247 @@
+/* ============================================================================
+   app.css — logged-in shell for the shortener template
+   Same dark/teal palette as the landing for cohesive branding.
+============================================================================ */
+
+:root {
+  --bg: #0b1220;
+  --bg-elev: #111a2e;
+  --surface: rgba(255, 255, 255, 0.04);
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #e6edf7;
+  --muted: #8a99b3;
+  --accent: #22d3ee;
+  --accent-2: #818cf8;
+  --danger: #f87171;
+  --radius: 12px;
+  --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--text); }
+
+/* ----------------------------------------------------------------------------
+   Role-based visibility
+   The {{user_role}} placeholder is substituted to "admin", "user", or "guest".
+   We use it on <body data-role="..."> to gate the admin chrome.
+---------------------------------------------------------------------------- */
+
+.user-empty { display: none; }
+
+body[data-role="user"] .admin-only { display: none !important; }
+body[data-role="user"] .user-empty { display: flex; }
+body[data-role="user"] .app-header { border-bottom: none; }
+body[data-role="user"] .app-main { padding-top: 0; }
+
+/* ---------- Header ---------- */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--bg-elev);
+  border-bottom: 1px solid var(--line);
+}
+
+.app-brand {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.app-brand::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.app-nav {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.app-nav a {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.app-nav a:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* ---------- User menu ---------- */
+
+.app-user {
+  margin-left: auto;
+}
+
+.app-user .bvg-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.app-user .bvg-user-menu__email {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.app-user .bvg-user-menu__logout {
+  display: inline-block;
+}
+
+.app-user .bvg-user-menu__logout button {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.app-user .bvg-user-menu__logout button:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ---------- Main ---------- */
+
+.app-main {
+  flex: 1;
+  max-width: 72rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.app-flash:empty { display: none; }
+
+/* ---------- Empty state (non-admin) ---------- */
+
+.user-empty {
+  flex: 1;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+  min-height: calc(100vh - 8rem);
+}
+
+.empty-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 3rem;
+  max-width: 30rem;
+  text-align: center;
+}
+
+.empty-card h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.empty-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.empty-actions { display: flex; justify-content: center; }
+
+/* ---------- Overrides for Rails-rendered admin content ---------- */
+/* These selectors soften the Tailwind-rendered /admin/links UI so it blends
+   with the dark shell. Adjust to taste — bvgeert renders zinc-tone surfaces
+   that we re-skin here without touching Rails. */
+
+.admin-content .surface,
+.admin-content [class*="bg-white"],
+.admin-content [class*="bg-zinc-50"] {
+  background: var(--bg-elev) !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
+}
+
+.admin-content [class*="text-zinc-9"],
+.admin-content [class*="text-strong"] {
+  color: var(--text) !important;
+}
+
+.admin-content [class*="text-muted"],
+.admin-content [class*="text-zinc-5"],
+.admin-content [class*="text-zinc-6"] {
+  color: var(--muted) !important;
+}
+
+.admin-content [class*="border-zinc"] {
+  border-color: var(--line) !important;
+}
+
+.admin-content input[type="text"],
+.admin-content input[type="url"],
+.admin-content textarea {
+  background: var(--bg) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--text) !important;
+  border-radius: 8px !important;
+}
+
+.admin-content input:focus,
+.admin-content textarea:focus {
+  border-color: var(--accent) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15) !important;
+}
+
+.admin-content button[type="submit"] {
+  background: var(--accent) !important;
+  color: var(--bg) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+
+.admin-content button[type="submit"]:hover {
+  background: var(--accent) !important;
+  filter: brightness(1.1);
+}
+
+/* ---------- Footer ---------- */
+
+.app-footer {
+  border-top: 1px solid var(--line);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+}

@@ -1,0 +1,31 @@
+name: Sync to BV Geert
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger asset sync
+        env:
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+          WEBHOOK_URLS: ${{ secrets.WEBHOOK_URLS }}
+        run: |
+          PAYLOAD='{"repository":{"full_name":"${{ github.repository }}"},"ref":"${{ github.ref }}"}'
+          SIGNATURE="sha256=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" | awk '{print $2}')"
+
+          echo "$WEBHOOK_URLS" | while IFS= read -r url; do
+            [ -z "$url" ] && continue
+            echo "→ $url"
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$url" \
+              -H "Content-Type: application/json" \
+              -H "X-Hub-Signature-256: $SIGNATURE" \
+              -H "X-GitHub-Event: push" \
+              -d "$PAYLOAD")
+            echo "  Status: $STATUS"
+            if [ "$STATUS" != "200" ]; then
+              echo "::warning::Sync to $url returned $STATUS"
+            fi
+          done
