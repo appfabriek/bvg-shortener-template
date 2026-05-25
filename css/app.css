@@ -243,6 +243,13 @@ body[data-role="user"] .app-main { padding-top: 0; }
   border-bottom: 1px solid var(--line);
 }
 
+.short-page-header--slim {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 1.75rem;
+  align-items: center;
+}
+
 .short-title {
   font-size: 1.5rem;
   font-weight: 600;
