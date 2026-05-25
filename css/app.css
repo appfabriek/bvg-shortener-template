@@ -1,29 +1,37 @@
 /* ============================================================================
-   app.css — logged-in shell for the shortener template
-   Same dark/teal palette as the landing for cohesive branding.
+   app.css — logged-in shell + shortener views
+   Dark, calm, generous whitespace. Targets the semantic .short-* classes
+   that bvgeert renders for shortener-mode domains.
 ============================================================================ */
 
 :root {
   --bg: #0b1220;
   --bg-elev: #111a2e;
-  --surface: rgba(255, 255, 255, 0.04);
+  --bg-elev-2: #16213a;
+  --surface: rgba(255, 255, 255, 0.03);
   --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
   --text: #e6edf7;
   --muted: #8a99b3;
+  --muted-soft: #6b7a94;
   --accent: #22d3ee;
   --accent-2: #818cf8;
   --danger: #f87171;
   --radius: 12px;
+  --radius-sm: 8px;
   --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   display: flex;
@@ -34,9 +42,7 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { color: var(--text); }
 
 /* ----------------------------------------------------------------------------
-   Role-based visibility
-   The {{user_role}} placeholder is substituted to "admin", "user", or "guest".
-   We use it on <body data-role="..."> to gate the admin chrome.
+   Role-based visibility (template gating)
 ---------------------------------------------------------------------------- */
 
 .user-empty { display: none; }
@@ -46,34 +52,36 @@ body[data-role="user"] .user-empty { display: flex; }
 body[data-role="user"] .app-header { border-bottom: none; }
 body[data-role="user"] .app-main { padding-top: 0; }
 
-/* ---------- Header ---------- */
+/* ----------------------------------------------------------------------------
+   App header (top bar)
+---------------------------------------------------------------------------- */
 
 .app-header {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1rem 1.5rem;
+  gap: 2rem;
+  padding: 1rem 2rem;
   background: var(--bg-elev);
   border-bottom: 1px solid var(--line);
 }
 
 .app-brand {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   letter-spacing: -0.01em;
   color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
 }
 
 .app-brand::before {
   content: "";
-  display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--accent);
-  margin-right: 0.5rem;
-  vertical-align: middle;
-  box-shadow: 0 0 10px var(--accent);
+  box-shadow: 0 0 12px var(--accent);
 }
 
 .app-nav {
@@ -85,8 +93,8 @@ body[data-role="user"] .app-main { padding-top: 0; }
 .app-nav a {
   color: var(--muted);
   font-size: 0.9rem;
-  padding: 0.5rem 0.875rem;
-  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-sm);
   transition: background 0.15s, color 0.15s;
 }
 
@@ -95,16 +103,16 @@ body[data-role="user"] .app-main { padding-top: 0; }
   color: var(--text);
 }
 
-/* ---------- User menu ---------- */
+/* ----------------------------------------------------------------------------
+   User menu (right side of header)
+---------------------------------------------------------------------------- */
 
-.app-user {
-  margin-left: auto;
-}
+.app-user { margin-left: auto; }
 
 .app-user .bvg-user-menu {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.9rem;
 }
 
 .app-user .bvg-user-menu__email {
@@ -113,18 +121,20 @@ body[data-role="user"] .app-main { padding-top: 0; }
 }
 
 .app-user .bvg-user-menu__logout {
-  display: inline-block;
+  margin: 0;
+  padding: 0;
 }
 
 .app-user .bvg-user-menu__logout button {
   background: transparent;
   border: 1px solid var(--line);
   color: var(--text);
-  border-radius: 8px;
-  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.95rem;
   font-size: 0.85rem;
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s;
+  font-family: inherit;
 }
 
 .app-user .bvg-user-menu__logout button:hover {
@@ -132,19 +142,48 @@ body[data-role="user"] .app-main { padding-top: 0; }
   color: var(--danger);
 }
 
-/* ---------- Main ---------- */
+/* ----------------------------------------------------------------------------
+   Main + footer scaffolding
+---------------------------------------------------------------------------- */
 
 .app-main {
   flex: 1;
-  max-width: 72rem;
   width: 100%;
+  max-width: 64rem;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 3rem 2rem;
 }
 
 .app-flash:empty { display: none; }
 
-/* ---------- Empty state (non-admin) ---------- */
+.app-footer {
+  padding: 1.75rem 2rem;
+  text-align: center;
+  color: var(--muted-soft);
+  font-size: 0.78rem;
+  border-top: 1px solid var(--line);
+}
+
+.app-footer a { color: var(--muted); }
+.app-footer a:hover { color: var(--text); }
+
+/* Quash the white-badge version tag in bvgeert footer */
+.app-footer code,
+.app-footer .badge,
+.app-footer [class*="bg-white"],
+.app-footer [class*="bg-zinc"] {
+  background: var(--surface) !important;
+  color: var(--muted) !important;
+  border: 1px solid var(--line);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+}
+
+/* ----------------------------------------------------------------------------
+   Empty state (non-admin)
+---------------------------------------------------------------------------- */
 
 .user-empty {
   flex: 1;
@@ -152,7 +191,6 @@ body[data-role="user"] .app-main { padding-top: 0; }
   align-items: center;
   justify-content: center;
   padding: 4rem 1.5rem;
-  min-height: calc(100vh - 8rem);
 }
 
 .empty-card {
@@ -179,45 +217,433 @@ body[data-role="user"] .app-main { padding-top: 0; }
 
 .empty-actions { display: flex; justify-content: center; }
 
-/* ----------------------------------------------------------------------------
-   Rails-rendered admin content
-   These selectors blend the Tailwind admin views into the dark shell.
-   Adjustments are scoped under .admin-content to avoid leaking into things
-   like the user_menu rendered above.
----------------------------------------------------------------------------- */
+/* ============================================================================
+   SHORTENER VIEWS
+   Designed to live inside .app-main. No Tailwind to override.
+============================================================================ */
+
+.short-page {
+  width: 100%;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.short-page--index {
+  max-width: 56rem;
+}
+
+.short-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.short-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+
+.short-page-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.short-page-meta {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.short-link-pill {
+  display: inline-block;
+  font-family: var(--mono);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+/* ---- Form ---- */
+
+.short-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.short-errors {
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.1rem;
+  list-style: none;
+  color: #fca5a5;
+  font-size: 0.9rem;
+}
+
+.short-errors li + li { margin-top: 0.25rem; }
+
+.short-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.short-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.short-input {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.short-input::placeholder {
+  color: var(--muted-soft);
+  opacity: 0.7;
+}
+
+.short-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
+}
+
+.short-input--readonly {
+  background: var(--bg);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.95rem;
+}
+
+.short-input-group {
+  display: flex;
+  align-items: stretch;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.short-input-group:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
+}
+
+.short-input-prefix {
+  padding: 0.75rem 0.85rem 0.75rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.02);
+  border-right: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.short-input--key {
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  font-family: var(--mono);
+  padding-left: 0.85rem;
+}
+
+.short-input--key:focus {
+  box-shadow: none !important;
+}
+
+.short-hint {
+  font-size: 0.8rem;
+  color: var(--muted-soft);
+}
+
+.short-hint:empty { display: none; }
+
+/* ---- Actions ---- */
+
+.short-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+.short-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.05s;
+  white-space: nowrap;
+}
+
+.short-button:active {
+  transform: translateY(1px);
+}
+
+.short-button--small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.82rem;
+}
+
+.short-button--primary {
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.short-button--primary:hover {
+  background: var(--accent);
+  filter: brightness(1.1);
+  color: var(--bg);
+}
+
+.short-button--ghost {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--line);
+}
+
+.short-button--ghost:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+  background: var(--surface);
+}
+
+.short-button--danger:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ---- Copy block (show page) ---- */
+
+.short-copy {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.short-copy-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.short-copy-row .short-input { flex: 1; }
+
+.short-copy-status {
+  font-size: 0.8rem;
+  color: var(--accent);
+  min-height: 1.2em;
+}
+
+/* ---- Detail block (show page) ---- */
+
+.short-detail {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.short-target {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--muted);
+  word-break: break-all;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-sm);
+}
+
+.short-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.short-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+
+.short-pill--info {
+  color: var(--accent-2);
+  border-color: rgba(129, 140, 248, 0.3);
+}
+
+.short-pill--warn {
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+/* ---- List (index page) ---- */
+
+.short-list {
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-elev);
+}
+
+.short-list-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.5fr) auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.15s;
+}
+
+.short-list-item:last-child { border-bottom: none; }
+
+.short-list-item:hover {
+  background: var(--bg-elev-2);
+}
+
+.short-list-key {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.short-list-host { color: var(--muted); }
+.short-list-slug { color: var(--accent); font-weight: 500; }
+
+.short-list-target {
+  color: var(--muted);
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.short-list-hits {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  font-size: 0.85rem;
+  min-width: 3ch;
+  text-align: right;
+}
+
+.short-list-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+@media (max-width: 720px) {
+  .short-list-item {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "key hits" "target actions";
+  }
+  .short-list-key    { grid-area: key; }
+  .short-list-target { grid-area: target; font-size: 0.8rem; }
+  .short-list-hits   { grid-area: hits; }
+  .short-list-actions { grid-area: actions; justify-content: flex-end; }
+}
+
+/* ---- Empty state ---- */
+
+.short-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.short-empty p { color: var(--muted); }
+
+/* ---- Pagination ---- */
+
+.short-pagination {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.short-pagination a,
+.short-pagination span {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-radius: var(--radius-sm);
+}
+
+.short-pagination a:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* ============================================================================
+   Settings page fallback
+   The /admin/settings page still uses Tailwind components — keep mild
+   re-skinning so it doesn't clash with the dark shell.
+============================================================================ */
 
 .admin-content {
   font-size: 0.95rem;
-  line-height: 1.5;
 }
 
-/* Hide fields we don't expose in shortener mode.
-   Targets the grid cell wrapping the InputComponent by walking up from the
-   input ID. Requires :has() (Safari 15.4+, Chrome 105+, Firefox 121+ — fine). */
-
-.admin-content div:has(> div > #link_category),
-.admin-content div:has(> div > #link_expires_at) {
-  display: none !important;
-}
-
-/* Make the remaining custom-key field span full width since it's alone now */
-.admin-content div:has(> div > #link_custom_key) {
-  grid-column: span 6 / span 6;
-}
-
-/* Breadcrumb + redundant page title: keep the breadcrumb, drop the duplicated h1 */
-.admin-content h1.display,
-.admin-content h1[class*="text-3xl"],
-.admin-content h1[class*="text-4xl"] {
+.admin-content h1 {
   font-size: 1.5rem !important;
   font-weight: 600 !important;
   letter-spacing: -0.02em;
   color: var(--text) !important;
-  margin-top: 0.25rem;
   margin-bottom: 1.5rem;
 }
 
-/* Cards / surfaces */
 .admin-content [class*="surface"],
 .admin-content [class*="bg-white"],
 .admin-content [class*="bg-zinc-50"],
@@ -227,183 +653,54 @@ body[data-role="user"] .app-main { padding-top: 0; }
   border-color: var(--line) !important;
 }
 
-/* Soften card outer container */
 .admin-content [class*="rounded-2xl"],
 .admin-content [class*="rounded-xl"] {
   border-radius: var(--radius) !important;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 8px 30px rgba(0, 0, 0, 0.25);
 }
 
-/* Borders */
-.admin-content [class*="border-zinc"] {
-  border-color: var(--line) !important;
-}
-
-/* Text colors */
-.admin-content,
-.admin-content p,
-.admin-content span,
-.admin-content label,
-.admin-content [class*="text-zinc-9"],
-.admin-content [class*="text-zinc-8"],
-.admin-content [class*="text-strong"] {
-  color: var(--text);
-}
+.admin-content [class*="border-zinc"] { border-color: var(--line) !important; }
 
 .admin-content [class*="text-muted"],
 .admin-content [class*="text-zinc-5"],
-.admin-content [class*="text-zinc-6"],
-.admin-content [class*="text-xs"]:not(button *) {
+.admin-content [class*="text-zinc-6"] {
   color: var(--muted) !important;
 }
 
-/* Labels */
-.admin-content label {
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  margin-bottom: 0.375rem;
-  display: block;
-}
-
-/* Form inputs */
 .admin-content input[type="text"],
 .admin-content input[type="url"],
 .admin-content input[type="email"],
 .admin-content input[type="datetime-local"],
-.admin-content input[type="search"],
 .admin-content textarea,
 .admin-content select {
   background: var(--bg) !important;
   border: 1px solid var(--line) !important;
   color: var(--text) !important;
-  border-radius: 10px !important;
+  border-radius: var(--radius-sm) !important;
   padding: 0.625rem 0.875rem !important;
   height: auto !important;
-  font-size: 0.95rem !important;
-  width: 100%;
-  box-shadow: none !important;
-}
-
-.admin-content input::placeholder,
-.admin-content textarea::placeholder {
-  color: var(--muted) !important;
-  opacity: 0.6;
 }
 
 .admin-content input:focus,
-.admin-content textarea:focus,
-.admin-content select:focus {
+.admin-content textarea:focus {
   border-color: var(--accent) !important;
   outline: none !important;
   box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18) !important;
 }
 
-/* Primary action button — fix icon spacing & color */
-.admin-content button[type="submit"],
-.admin-content [type="submit"] {
+.admin-content button[type="submit"] {
   background: var(--accent) !important;
   color: var(--bg) !important;
   border: none !important;
-  border-radius: 10px !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.65rem 1.25rem !important;
   font-weight: 600 !important;
-  padding: 0.625rem 1.25rem !important;
-  font-size: 0.9rem !important;
   display: inline-flex !important;
   align-items: center;
   gap: 0.5rem;
-  cursor: pointer;
-  transition: filter 0.15s, transform 0.05s;
-}
-
-.admin-content button[type="submit"]:hover {
-  filter: brightness(1.08);
-}
-
-.admin-content button[type="submit"]:active {
-  transform: translateY(1px);
 }
 
 .admin-content button[type="submit"] svg {
   width: 14px;
   height: 14px;
-  margin: 0 !important;
   stroke: var(--bg);
-}
-
-/* Secondary / link buttons (Annuleren, Lijst, etc.) */
-.admin-content a[class*="text-zinc"],
-.admin-content a[href*="/admin/links"]:not([class*="bg-"]) {
-  color: var(--muted);
-  text-decoration: none;
-}
-
-.admin-content a[class*="text-zinc"]:hover,
-.admin-content a[href*="/admin/links"]:not([class*="bg-"]):hover {
-  color: var(--text);
-}
-
-/* Tables (links list) */
-.admin-content table {
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
-}
-
-.admin-content thead {
-  background: var(--bg-elev);
-}
-
-.admin-content th {
-  text-align: left;
-  font-weight: 500;
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted) !important;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--line);
-}
-
-.admin-content td {
-  padding: 0.875rem 1rem;
-  border-bottom: 1px solid var(--line);
-  font-size: 0.9rem;
-}
-
-.admin-content tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-/* Pills / badges */
-.admin-content [class*="pill"],
-.admin-content [class*="badge"] {
-  background: var(--surface) !important;
-  color: var(--muted) !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 999px !important;
-  padding: 0.15rem 0.6rem !important;
-  font-size: 0.75rem !important;
-}
-
-/* Datalist style fix for datetime input arrow */
-.admin-content input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.7);
-}
-
-/* Hide the redundant breadcrumb on /admin/links/new — the nav already says
-   what page you're on. Optional; comment out if you want it back. */
-.admin-content nav[aria-label="Breadcrumb"],
-.admin-content [class*="breadcrumb"] {
-  display: none;
-}
-
-/* ---------- Footer ---------- */
-
-.app-footer {
-  border-top: 1px solid var(--line);
-  padding: 1.5rem;
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.8rem;
 }
