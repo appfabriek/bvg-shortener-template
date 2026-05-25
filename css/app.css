@@ -625,7 +625,14 @@ body:has(.short-page--new) .app-main {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: baseline;
+  min-width: 0;
 }
+
+.short-list-key:hover .short-list-slug { color: var(--text); }
 
 .short-list-host { color: var(--muted); }
 .short-list-slug { color: var(--accent); font-weight: 500; }
@@ -648,18 +655,71 @@ body:has(.short-page--new) .app-main {
 
 .short-list-actions {
   display: flex;
-  gap: 0.35rem;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+/* New icon-style action buttons inside the list. Keep them small on desktop;
+   on mobile they collapse to icon-only via .short-list-action-label. */
+.short-list-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+  font-family: inherit;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.short-list-action:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+  background: var(--surface);
+}
+
+.short-list-action--danger:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.short-list-action > [aria-hidden="true"] {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 @media (max-width: 720px) {
   .short-list-item {
     grid-template-columns: 1fr auto;
     grid-template-areas: "key hits" "target actions";
+    padding: 0.875rem 1rem;
+    gap: 0.5rem 0.75rem;
   }
-  .short-list-key    { grid-area: key; }
-  .short-list-target { grid-area: target; font-size: 0.8rem; }
+  .short-list-key    { grid-area: key; font-size: 1rem; }
+  .short-list-target { grid-area: target; font-size: 0.78rem; }
   .short-list-hits   { grid-area: hits; }
   .short-list-actions { grid-area: actions; justify-content: flex-end; }
+
+  /* On mobile drop the host prefix — every row has it, it's noise. The slug
+     alone is what the user identifies links by. */
+  .short-list-host { display: none; }
+  .short-list-slug { font-size: 1rem; }
+
+  /* Compact icon-only action buttons */
+  .short-list-action {
+    padding: 0.45rem 0.55rem;
+    min-width: 2.2rem;
+  }
+
+  .short-list-action-label { display: none; }
+  .short-list-action > [aria-hidden="true"] { font-size: 1.05rem; }
 }
 
 /* ---- Empty state ---- */
