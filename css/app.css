@@ -232,6 +232,72 @@ body[data-role="user"] .app-main { padding-top: 0; }
   max-width: 56rem;
 }
 
+/* ---- Fullscreen "create a link" page ---- */
+/* The new-page is the primary thing an admin does, so it claims the whole
+   viewport: large inputs, generous typography, vertically centered. */
+
+body:has(.short-page--new) .app-main {
+  max-width: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 4.5rem - 4rem); /* minus header + footer */
+}
+
+.short-page--new {
+  max-width: 48rem;
+  padding: 3rem 2rem;
+}
+
+.short-page--new .short-form {
+  gap: 2rem;
+}
+
+.short-page--new .short-label {
+  font-size: 0.85rem;
+}
+
+.short-page--new .short-input {
+  font-size: 1.25rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+}
+
+.short-page--new .short-input-group {
+  border-radius: var(--radius);
+}
+
+.short-page--new .short-input-prefix {
+  font-size: 1.05rem;
+  padding: 1rem 0.85rem 1rem 1.25rem;
+}
+
+.short-page--new .short-input--key {
+  font-size: 1.25rem;
+  padding: 1rem 1.25rem 1rem 0.85rem !important;
+}
+
+.short-page--new .short-actions {
+  margin-top: 0.5rem;
+  padding-top: 0;
+}
+
+.short-page--new .short-button--primary {
+  padding: 0.95rem 2rem;
+  font-size: 1rem;
+  border-radius: var(--radius);
+  width: 100%;
+}
+
+/* ---- Auto-copy feedback on show page ---- */
+
+.short-copy[data-copy-auto-value="true"] .short-copy-status {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
 .short-page-header {
   display: flex;
   align-items: flex-end;
