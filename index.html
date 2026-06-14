@@ -7,18 +7,29 @@
   <title>{{brand_name}} — Short links that work</title>
   <link rel="stylesheet" href="/css/landing.css">
 </head>
-<body>
+<body data-role="{{user_role}}">
   <header class="landing-nav">
-    <span class="landing-brand">{{brand_name}}</span>
-    <nav>
+    <a href="/" class="landing-brand">{{brand_name}}</a>
+    <nav class="guest-only">
       <a href="#what">What</a>
       <a href="#why">Why</a>
       <a href="#contact">Contact</a>
     </nav>
+    <nav class="admin-only">
+      <a href="/admin/links">Links</a>
+      <a href="/admin/settings">Settings</a>
+    </nav>
   </header>
 
   <main>
-    <section class="hero">
+    <!-- Logged-in admin: the link console (create form + recent links).
+         Injected by Rails (HomeController#index) at {{content}}. -->
+    <section class="console admin-only">
+      {{content}}
+    </section>
+
+    <!-- Public marketing (logged-out visitors) -->
+    <section class="hero guest-only">
       <div class="hero-inner">
         <h1>Short links<br><span class="accent">that just work.</span></h1>
         <p class="lede">
@@ -41,7 +52,7 @@
       </div>
     </section>
 
-    <section id="what" class="features">
+    <section id="what" class="features guest-only">
       <h2>Built for teams that care about every link</h2>
       <div class="feature-grid">
         <article>
@@ -63,7 +74,7 @@
       </div>
     </section>
 
-    <section id="why" class="why">
+    <section id="why" class="why guest-only">
       <h2>Why not Bitly?</h2>
       <p>
         Public shorteners turn your links into ad-trackers, expire without warning, and get blocked by corporate firewalls.
@@ -71,7 +82,7 @@
       </p>
     </section>
 
-    <section id="contact" class="contact">
+    <section id="contact" class="contact guest-only">
       <h2>Need access?</h2>
       <p>Reach out to your team administrator. They can grant you sign-in rights to manage links.</p>
     </section>
