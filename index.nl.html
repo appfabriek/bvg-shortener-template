@@ -7,18 +7,28 @@
   <title>{{brand_name}} — Korte links die werken</title>
   <link rel="stylesheet" href="/css/landing.css">
 </head>
-<body>
+<body data-role="{{user_role}}">
   <header class="landing-nav">
-    <span class="landing-brand">{{brand_name}}</span>
-    <nav>
+    <a href="/" class="landing-brand">{{brand_name}}</a>
+    <nav class="guest-only">
       <a href="#what">Wat</a>
       <a href="#why">Waarom</a>
       <a href="#contact">Contact</a>
     </nav>
+    <nav class="admin-only">
+      <a href="/admin/links">Links</a>
+      <a href="/admin/settings">Instellingen</a>
+    </nav>
   </header>
 
   <main>
-    <section class="hero">
+    <!-- Ingelogde beheerder: de link-console (formulier + recente links).
+         Door Rails (HomeController#index) ingevoegd op {{content}}. -->
+    <section class="console admin-only">
+      {{content}}
+    </section>
+
+    <section class="hero guest-only">
       <div class="hero-inner">
         <h1>Korte links<br><span class="accent">die gewoon werken.</span></h1>
         <p class="lede">
@@ -41,7 +51,7 @@
       </div>
     </section>
 
-    <section id="what" class="features">
+    <section id="what" class="features guest-only">
       <h2>Voor teams die om elke link geven</h2>
       <div class="feature-grid">
         <article>
@@ -63,7 +73,7 @@
       </div>
     </section>
 
-    <section id="why" class="why">
+    <section id="why" class="why guest-only">
       <h2>Waarom geen Bitly?</h2>
       <p>
         Publieke shorteners maken van je links ad-trackers, vervallen zonder waarschuwing en worden door
@@ -71,7 +81,7 @@
       </p>
     </section>
 
-    <section id="contact" class="contact">
+    <section id="contact" class="contact guest-only">
       <h2>Toegang nodig?</h2>
       <p>Neem contact op met je teambeheerder. Die kan je inlog-rechten geven om links te beheren.</p>
     </section>
