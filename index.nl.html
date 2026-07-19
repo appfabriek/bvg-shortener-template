@@ -6,10 +6,15 @@
   {{csrf_meta}}
   <title>{{brand_name}} — Korte links die werken</title>
   <link rel="stylesheet" href="/css/landing.css">
+  <link rel="icon" href="{{brand_logo}}">
+  <link rel="apple-touch-icon" href="{{brand_apple_touch_icon}}">
 </head>
 <body data-role="{{user_role}}">
   <header class="landing-nav">
-    <a href="/" class="landing-brand">{{brand_name}}</a>
+    <a href="/" class="landing-brand">
+      <img class="brand-logo" src="{{brand_logo}}" width="28" height="28" alt="" decoding="async">
+      {{brand_name}}
+    </a>
     <nav class="guest-only">
       <a href="#what">Wat</a>
       <a href="#why">Waarom</a>

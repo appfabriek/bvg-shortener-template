@@ -75,13 +75,14 @@ body[data-role="user"] .app-main { padding-top: 0; }
   gap: 0.55rem;
 }
 
-.app-brand::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 12px var(--accent);
+.app-brand .brand-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .app-nav {
@@ -927,9 +928,14 @@ body:has(.short-page--new) .app-main {
     font-size: 0.8rem;
   }
 
-  /* Brand keeps the dot — its job is to signal which domain you're on. */
+  /* Brand keeps the logo — its job is to signal which domain you're on. */
   .app-header {
     gap: 0.5rem;
+  }
+
+  .app-brand .brand-logo {
+    width: 24px;
+    height: 24px;
   }
 
   /* Slug input + prefix: stop the prefix from squeezing the input on narrow

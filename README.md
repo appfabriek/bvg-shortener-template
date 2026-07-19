@@ -28,6 +28,7 @@ Authorization is enforced by BV Geert (`user.admin?`). This template just render
 | `app.html`       | Logged-in shell (wraps every authenticated page)       |
 | `css/landing.css`| Styling for the public landing                         |
 | `css/app.css`    | Styling for the logged-in shell + Rails content        |
+| `icons/`         | Optional pack for upload to Admin → Logo (not used by shell) |
 | `.github/workflows/sync.yml` | Webhook to BV Geert on push           |
 
 ## Placeholders
@@ -41,6 +42,8 @@ Used in `index.html` (public):
 | `{{footer}}`       | BV Geert footer                                            |
 | `{{csrf_meta}}`    | CSRF meta tags                                             |
 | `{{brand_name}}`   | Your domain's brand name                                   |
+| `{{brand_logo}}`   | Domain logo URL from Admin → Settings (fallback `/logokl.svg`) |
+| `{{brand_apple_touch_icon}}` | 180×180 apple-touch (or `/icon.png`)               |
 | `{{current_year}}` | Current year                                               |
 
 Used in `app.html` (logged-in):
@@ -54,6 +57,8 @@ Used in `app.html` (logged-in):
 | `{{footer}}`       | BV Geert footer                                            |
 | `{{csrf_meta}}`    | CSRF meta tags                                             |
 | `{{brand_name}}`   | Your domain's brand name                                   |
+| `{{brand_logo}}`   | Domain logo URL from Admin → Settings (fallback `/logokl.svg`) |
+| `{{brand_apple_touch_icon}}` | 180×180 apple-touch (or `/icon.png`)               |
 | `{{page_title}}`   | Current page title                                         |
 | `{{current_year}}` | Current year                                               |
 
@@ -88,7 +93,7 @@ The defaults are intentionally generic. Tweak:
 - **Colors**: edit `--accent` and `--accent-2` in both CSS files.
 - **Demo slugs**: edit the `.demo-card` rows in `index.html` to match your actual top links.
 - **Copy**: rewrite the hero and feature sections — make it feel like your team.
-- **Logo**: replace the dot before `{{brand_name}}` with your own SVG or image.
+- **Logo**: upload under **Admin → Settings → Logo** on the domain (not in this repo). The shell uses `{{brand_logo}}` / `{{brand_apple_touch_icon}}`. Optional source pack: `geert-link-icons-ios-android-web.zip` / `icons/`.
 
 ## Docs
 
