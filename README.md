@@ -28,7 +28,8 @@ Authorization is enforced by BV Geert (`user.admin?`). This template just render
 | `app.html`       | Logged-in shell (wraps every authenticated page)       |
 | `css/landing.css`| Styling for the public landing                         |
 | `css/app.css`    | Styling for the logged-in shell + Rails content        |
-| `icons/`         | Optional pack for upload to Admin → Logo (not used by shell) |
+| `images/`        | Logo/favicon served by BcAssetServer (`/images/*`)           |
+| `icons/`         | Optional pack for Admin → Logo upload / mobile icons         |
 | `.github/workflows/sync.yml` | Webhook to BV Geert on push           |
 
 ## Placeholders
@@ -93,7 +94,7 @@ The defaults are intentionally generic. Tweak:
 - **Colors**: edit `--accent` and `--accent-2` in both CSS files.
 - **Demo slugs**: edit the `.demo-card` rows in `index.html` to match your actual top links.
 - **Copy**: rewrite the hero and feature sections — make it feel like your team.
-- **Logo**: upload under **Admin → Settings → Logo** on the domain (not in this repo). The shell uses `{{brand_logo}}` / `{{brand_apple_touch_icon}}`. Optional source pack: `geert-link-icons-ios-android-web.zip` / `icons/`.
+- **Logo**: upload under **Admin → Settings → Logo** (requires bvgeert with `{{brand_logo}}` placeholders deployed). Until then the shell falls back to `/images/logo.png` (synced from this repo; served via BcAssetServer under `/images/*`, not `/icons/*`).
 
 ## Docs
 
