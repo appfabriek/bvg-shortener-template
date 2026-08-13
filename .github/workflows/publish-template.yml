@@ -12,24 +12,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Production Domain rows only. staging.*/accept.* have no Domain.
           - env: production
             host: geert.link
             secret: BVG_TEMPLATE_TOKEN_GEERT_LINK
           - env: production
             host: nm.nu
             secret: BVG_TEMPLATE_TOKEN_NM_NU
-          - env: staging
-            host: staging.geert.link
-            secret: BVG_TEMPLATE_TOKEN_GEERT_LINK_STAGING
-          - env: staging
-            host: staging.nm.nu
-            secret: BVG_TEMPLATE_TOKEN_NM_NU_STAGING
-          - env: accept
-            host: accept.geert.link
-            secret: BVG_TEMPLATE_TOKEN_GEERT_LINK_ACCEPT
-          - env: accept
-            host: accept.nm.nu
-            secret: BVG_TEMPLATE_TOKEN_NM_NU_ACCEPT
     name: Publish → ${{ matrix.host }}
     steps:
       - uses: actions/checkout@v4
