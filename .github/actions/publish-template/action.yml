@@ -1,0 +1,43 @@
+name: Publish template to BVGeert domain
+description: Push template files (HTML/CSS/JS/images) into a BVGeert domain via publish token
+inputs:
+  host:
+    description: Target host (accept.*, staging.*, or production hostname)
+    required: true
+  token:
+    description: Domain template publish token (dtt_...)
+    required: true
+  paths:
+    description: Comma-separated globs relative to repo root
+    required: false
+    default: "css/**/*,js/**/*,images/**/*,fonts/**/*,**/*.html,manifest.json,browserconfig.xml,llms.txt,sitemap.xml,robots.txt"
+  repo:
+    description: owner/repo recorded on the domain
+    required: false
+    default: ${{ github.repository }}
+  branch:
+    description: Branch name
+    required: false
+    default: ${{ github.ref_name }}
+  sha:
+    description: Commit SHA
+    required: false
+    default: ${{ github.sha }}
+  protocol:
+    description: http or https
+    required: false
+    default: https
+runs:
+  using: composite
+  steps:
+    - name: Publish template snapshot
+      shell: bash
+      env:
+        BVG_HOST: ${{ inputs.host }}
+        BVG_TOKEN: ${{ inputs.token }}
+        BVG_PATHS: ${{ inputs.paths }}
+        BVG_REPO: ${{ inputs.repo }}
+        BVG_BRANCH: ${{ inputs.branch }}
+        BVG_SHA: ${{ inputs.sha }}
+        BVG_PROTOCOL: ${{ inputs.protocol }}
+      run: bash "${{ github.action_path }}/publish.sh"
