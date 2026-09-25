@@ -107,6 +107,10 @@ The defaults are intentionally generic. Tweak:
 - **Demo slugs**: edit the `.demo-card` rows in `index.html` to match your actual top links.
 - **Copy**: rewrite the hero and feature sections — make it feel like your team.
 - **Logo**: put `images/logo.png` (and optionally `images/apple-touch.png`) in this repo. `{{brand_logo}}` points at that file. There is no logo upload on the Domain record.
+  The shared default is the neutral arrow mark (`brand/shortener-mark.svg`).
+  A host gets its own mark via `hosts/<host>/images/*`, copied over the tree
+  by the publish workflow (geert.link: `brand/geert-link-mark.svg`).
+  Regenerate PNGs/ICO from the SVGs with `rsvg-convert` + `magick`.
 
 ## Docs
 
