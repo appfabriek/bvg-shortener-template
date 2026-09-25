@@ -6,6 +6,7 @@
   {{csrf_meta}}
   <title>{{brand_name}} — Short links that work</title>
   <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/links.css">
   <!-- {{brand_logo}} is /images/logo.png from this tree, else the platform mark. -->
   <link rel="icon" href="{{brand_logo}}">
   <link rel="icon" href="/images/favicon.ico" sizes="any">
@@ -32,7 +33,7 @@
 
   <main>
     <!-- Logged-in admin: the link console (create form + recent links).
-         Injected by Rails (HomeController#index) at {{content}}. -->
+         Injected by Rails (HomeController#index) into this section. -->
     <section class="console admin-only">
       {{content}}
     </section>
