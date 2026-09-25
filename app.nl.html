@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +26,7 @@
     </a>
     <nav class="app-nav admin-only">
       <a href="/admin/links">Links</a>
-      <a href="/admin/settings">Settings</a>
+      <a href="/admin/settings">Instellingen</a>
     </nav>
     <div class="app-user">{{user_menu}}</div>
   </header>
@@ -37,10 +37,10 @@
     <!-- Visible only when a non-admin is logged in -->
     <section class="user-empty">
       <div class="empty-card">
-        <h1>Nothing here for you</h1>
+        <h1>Hier is niets voor jou</h1>
         <p>
-          {{brand_name}} is a private URL forwarder. Only administrators can manage links.
-          If you believe this is a mistake, contact your team administrator.
+          {{brand_name}} is een privé-linkverkorter. Alleen beheerders kunnen links beheren.
+          Denk je dat dit niet klopt? Neem contact op met je beheerder.
         </p>
         <div class="empty-actions">{{user_menu}}</div>
       </div>

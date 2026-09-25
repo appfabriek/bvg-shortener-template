@@ -1,0 +1,490 @@
+/* ============================================================================
+   links.css — the shortener's own screens
+   Composer (make a link), result (copy / share / QR) and the link list.
+   Loaded by app.html (admin pages) and index.html (the admin home console),
+   so both render the same markup the same way. Targets the semantic short-*
+   classes bvgeert renders in shortener mode. Tokens fall back to the landing
+   palette when a page doesn't define them.
+============================================================================ */
+
+.short-page {
+  --s-bg: var(--bg, #0b1220);
+  --s-elev: var(--bg-elev, #111a2e);
+  --s-line: var(--line, rgba(255, 255, 255, 0.08));
+  --s-line-strong: var(--line-strong, rgba(255, 255, 255, 0.16));
+  --s-text: var(--text, #e6edf7);
+  --s-muted: var(--muted, #8a99b3);
+  --s-accent: var(--accent, #22d3ee);
+  --s-accent-2: var(--accent-2, #818cf8);
+  --s-danger: var(--danger, #f87171);
+  --s-ok: #4ade80;
+  --s-mono: var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  --s-gradient: linear-gradient(135deg, var(--s-accent), var(--s-accent-2));
+
+  width: 100%;
+  max-width: 34rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: var(--s-text);
+}
+
+.short-page--index { max-width: 48rem; }
+
+.short-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.short-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--s-muted);
+}
+
+.short-link { color: var(--s-accent); font-size: 0.9rem; text-decoration: none; }
+.short-link:hover { color: var(--s-text); }
+.short-link--danger { color: var(--s-danger); }
+
+.short-icon { width: 1.1em; height: 1.1em; flex-shrink: 0; }
+.short-icon.hidden { display: none; }
+.short-spin { animation: short-spin 0.9s linear infinite; }
+@keyframes short-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Buttons ---------- */
+
+.short-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  font: 600 0.95rem/1.2 var(--font, inherit);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter 0.15s, background 0.15s, border-color 0.15s, color 0.15s, transform 0.08s;
+}
+
+.short-button:active { transform: scale(0.98); }
+.short-button[disabled] { opacity: 0.7; cursor: progress; }
+
+.short-button--primary {
+  background: var(--s-gradient);
+  color: #06101f;
+  box-shadow: 0 10px 30px -12px rgba(34, 211, 238, 0.6);
+}
+
+.short-button--primary:hover { filter: brightness(1.08); color: #06101f; }
+
+.short-button--ghost {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--s-line);
+  color: var(--s-text);
+}
+
+.short-button--ghost:hover { border-color: var(--s-line-strong); color: var(--s-text); }
+
+.short-button--block { width: 100%; padding: 1rem 1.25rem; font-size: 1.05rem; }
+
+/* ---------- Composer ---------- */
+
+/* A card with a hairline gradient border: the one thing to do here. */
+.short-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border-radius: 22px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--s-elev), var(--s-elev)) padding-box,
+    linear-gradient(140deg, rgba(34, 211, 238, 0.55), rgba(129, 140, 248, 0.3) 45%, rgba(255, 255, 255, 0.06)) border-box;
+  box-shadow: 0 30px 60px -30px rgba(34, 211, 238, 0.35);
+}
+
+.short-field { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.short-input,
+.short-slug {
+  width: 100%;
+  background: var(--s-bg);
+  border: 1px solid var(--s-line);
+  border-radius: 14px;
+  color: var(--s-text);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+/* 16px+ keeps iOS from zooming in on focus. */
+.short-input {
+  padding: 0.95rem 1rem;
+  font: 400 1.05rem/1.3 var(--font, inherit);
+}
+
+.short-input::placeholder { color: var(--s-muted); opacity: 0.75; }
+
+.short-input:focus,
+.short-slug:focus-within {
+  outline: none;
+  border-color: var(--s-accent);
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15);
+}
+
+.short-input[aria-invalid="true"] { border-color: var(--s-danger); }
+
+.short-url { position: relative; }
+.short-url:has(.short-paste:not([hidden])) .short-input { padding-right: 7.25rem; }
+
+.short-paste {
+  position: absolute;
+  top: 50%;
+  right: 0.45rem;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  background: rgba(34, 211, 238, 0.1);
+  color: var(--s-accent);
+  font: 600 0.85rem/1 var(--font, inherit);
+  cursor: pointer;
+}
+
+.short-paste[hidden] { display: none; }
+.short-paste:active { transform: translateY(-50%) scale(0.97); }
+
+/* geert.link/[slug] as one line; the host shrinks before the slug does. */
+.short-slug {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-family: var(--s-mono);
+  font-size: 1.05rem;
+}
+
+.short-slug-host {
+  color: var(--s-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.short-slug-input {
+  flex: 1 0 5ch;
+  min-width: 5ch;
+  padding: 0.95rem 0 0.95rem 0.05rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--s-accent);
+  font: 600 1.05rem/1.3 var(--s-mono);
+}
+
+.short-field-error { color: #fca5a5; font-size: 0.85rem; }
+.short-field-error.hidden { display: none; }
+
+.short-errors {
+  list-style: none;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  background: rgba(248, 113, 113, 0.08);
+  color: #fca5a5;
+  font-size: 0.9rem;
+}
+
+.short-errors li + li { margin-top: 0.25rem; }
+
+/* ---------- Result (show page) ---------- */
+
+.short-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 2rem 1.25rem 1.5rem;
+  border-radius: 24px;
+  border: 1px solid var(--s-line);
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(34, 211, 238, 0.16), transparent 65%),
+    var(--s-elev);
+  text-align: center;
+}
+
+.short-result-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--s-muted);
+}
+
+.short-result--fresh .short-result-kicker { color: var(--s-ok); }
+.short-result--fresh .short-result-url { animation: short-pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3); }
+@keyframes short-pop { from { transform: scale(0.92); opacity: 0; } }
+
+.short-result-url {
+  font-family: var(--s-mono);
+  font-size: clamp(1.5rem, 7.5vw, 2.3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  color: var(--s-text);
+}
+
+/* The slug wraps as one unit (after the "/"), never mid-word. */
+.short-result-slug {
+  display: inline-block;
+  background: var(--s-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.short-result-target {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 100%;
+  color: var(--s-muted);
+  font-size: 0.85rem;
+}
+
+.short-result-target span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Copy spans the row; share + open split the next one (open alone takes it
+   all where the share sheet isn't available). */
+.short-result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.short-result-actions > * { flex: 1 1 0; }
+.short-result-actions > .short-button--primary { flex-basis: 100%; padding: 1rem; font-size: 1.05rem; }
+.short-result-actions > [hidden] { display: none; }
+
+.short-result-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--s-muted);
+  font-size: 0.85rem;
+}
+
+.short-qr-card {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--s-line);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.short-qr {
+  width: 108px;
+  height: 108px;
+  padding: 6px;
+  border-radius: 14px;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.short-qr-downloads { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.short-result-nav { display: flex; flex-direction: column; gap: 1rem; }
+
+.short-result-subnav {
+  display: flex;
+  justify-content: center;
+  gap: 1.75rem;
+}
+
+/* ---------- Page headers ---------- */
+
+.short-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.short-link-pill {
+  font-family: var(--s-mono);
+  font-size: 0.9rem;
+  color: var(--s-accent);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--s-line);
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* ---------- Link list ---------- */
+
+.short-recent { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem; }
+
+.short-recent-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 0.25rem;
+}
+
+.short-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+
+.short-list-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "key hits"
+    "target actions";
+  align-items: center;
+  gap: 0.2rem 0.75rem;
+  padding: 0.8rem 0.6rem 0.8rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--s-line);
+  background: var(--s-elev);
+}
+
+.short-list-key {
+  grid-area: key;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  font-family: var(--s-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.short-list-host { display: none; color: var(--s-muted); font-weight: 400; }
+.short-list-slug { color: var(--s-accent); overflow: hidden; text-overflow: ellipsis; }
+
+.short-list-target {
+  grid-area: target;
+  min-width: 0;
+  color: var(--s-muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.short-list-hits {
+  grid-area: hits;
+  justify-self: end;
+  margin-right: 0.4rem;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--s-muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.short-list-actions { grid-area: actions; display: flex; gap: 0.1rem; }
+
+.short-list-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 12px;
+  border: 0;
+  background: transparent;
+  color: var(--s-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.short-list-action:hover { background: rgba(255, 255, 255, 0.06); color: var(--s-text); }
+.short-list-action--danger:hover { color: var(--s-danger); }
+
+.short-list-action-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.short-pill {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--s-line);
+  font-family: var(--font, inherit);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--s-muted);
+}
+
+.short-pill--warn { color: #fcd34d; border-color: rgba(252, 211, 77, 0.35); text-transform: uppercase; }
+
+.short-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 3rem 1rem;
+  border-radius: 20px;
+  border: 1px dashed var(--s-line);
+  color: var(--s-muted);
+  text-align: center;
+}
+
+.short-pagination { display: flex; justify-content: center; }
+
+.short-pagination a,
+.short-pagination span {
+  padding: 0.4rem 0.75rem;
+  border-radius: 10px;
+  color: var(--s-muted);
+  font-size: 0.85rem;
+}
+
+.short-pagination a:hover { background: rgba(255, 255, 255, 0.05); color: var(--s-text); }
+
+/* ---------- Wider screens ---------- */
+
+@media (min-width: 720px) {
+  .short-composer { padding: 1.75rem; gap: 1.5rem; }
+
+  .short-list-item {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr) auto auto;
+    grid-template-areas: "key target hits actions";
+    padding: 0.7rem 0.6rem 0.7rem 1.1rem;
+  }
+
+  .short-list-host { display: inline; }
+}
