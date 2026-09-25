@@ -17,7 +17,12 @@
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* In Rails' base layer, not unlayered: the page renders inside the app
+   layout, and an unlayered reset beats every Tailwind utility of the
+   Rails-rendered login form and footer (buttons lost their spacing). */
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+}
 
 html, body {
   background: var(--bg);
@@ -370,9 +375,11 @@ footer {
    The marketing sections are .guest-only; the console is .admin-only.
 ============================================================================ */
 
-.admin-only { display: none; }
-[data-role="admin"] .admin-only { display: block; }
-[data-role="admin"] .guest-only { display: none; }
+/* Hide-only rules with !important, so component rules such as
+   `.landing-nav nav { display: flex }` can't un-hide the admin nav for
+   guests. Visible elements keep their own display value. */
+body:not([data-role="admin"]) .admin-only,
+[data-role="admin"] .guest-only { display: none !important; }
 
 .console {
   max-width: 44rem;

@@ -22,6 +22,12 @@ jobs:
     name: Publish → ${{ matrix.host }}
     steps:
       - uses: actions/checkout@v4
+      # Per-host brand assets: hosts/<host>/ is copied over the shared tree
+      # (e.g. geert.link's own logo), so hosts sharing this template keep
+      # their own mark.
+      - name: Apply host overlay
+        run: |
+          if [ -d "hosts/${{ matrix.host }}" ]; then cp -R "hosts/${{ matrix.host }}/." . ; fi
       - name: Publish to ${{ matrix.host }}
         uses: ./.github/actions/publish-template
         with:
