@@ -504,6 +504,66 @@
 
 .short-pagination a:hover { background: rgba(255, 255, 255, 0.05); color: var(--s-text); }
 
+/* ---------- Hits (where clicks came from) ---------- */
+
+.short-hits-summary { display: flex; flex-direction: column; gap: 0.35rem; }
+.short-hits-note { color: var(--s-muted); font-size: 0.88rem; }
+
+.short-places { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.short-place {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.4rem 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--s-line);
+  background: var(--s-elev);
+  font-size: 0.9rem;
+}
+
+.short-place-count {
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--s-accent);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.short-hits {
+  list-style: none;
+  border: 1px solid var(--s-line);
+  border-radius: 18px;
+  background: var(--s-elev);
+  overflow: hidden;
+}
+
+.short-hit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "place time"
+    "meta  meta";
+  gap: 0.2rem 0.75rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--s-line);
+}
+
+.short-hit:last-child { border-bottom: 0; }
+
+.short-hit-place { grid-area: place; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.short-hit-place--pending,
+.short-hit-place--unknown { color: var(--s-muted); font-weight: 400; font-style: italic; }
+.short-hit-time { grid-area: time; color: var(--s-muted); font-size: 0.82rem; white-space: nowrap; }
+.short-hit-meta { grid-area: meta; color: var(--s-muted); font-size: 0.82rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Click counts link to the hits page. */
+a.short-list-hits { text-decoration: none; transition: background 0.15s, color 0.15s; }
+a.short-list-hits:hover { background: rgba(34, 211, 238, 0.14); color: var(--s-accent); }
+a.short-result-stats { text-decoration: none; }
+a.short-result-stats:hover { color: var(--s-accent); }
+
 /* ---------- Wider screens ---------- */
 
 @media (min-width: 720px) {
